@@ -53,24 +53,24 @@ export const aiVideoWorks = [
     id: 1,
     title: 'Momscoop ad video',
     image: '/portfolio/momscoop.jpg',
-    videoUrl: 'https://youtube.com/shorts/vV-v0CpaFt0'
+    videoUrl: 'https://drive.google.com/file/d/1ivtyHtWyF4dkTUG5O_0fF2-qG6DYx8En/view?usp=sharing'
   },
   {
     id: 2,
     title: 'Raj creation ad video',
     image: '/portfolio/rjcreation.jpg',
-    videoUrl: 'https://youtube.com/shorts/kwUIL6-hbjc'
+    videoUrl: 'https://drive.google.com/file/d/1iTWg7GpfvrE08PuDjoyrvz_FsCOrVme0/view?usp=sharing'
   },
   {
     id: 3,
     title: 'RJ ATLAS JEWELLERY ramadan Ad video',
     image: '/portfolio/rjJad.jpg',
-    videoUrl: 'https://youtube.com/shorts/XUAmhkruVQE'
+    videoUrl: 'https://drive.google.com/file/d/1J6jCK1_yhoe5CkJGXvl5XMV7BSAY0Q8z/view?usp=sharing'
   },
   {
     id: 4,
     title: 'Cinematic short ad video',
     image: '/portfolio/rj_cinematic.jpg',
-    videoUrl: 'https://youtube.com/shorts/BW0ai9K_9BQ'
+    videoUrl: 'https://drive.google.com/file/d/1s5DplNNM37q7XLu1HWTuIoeLUhN-7rPt/view?usp=sharing'
   }
 ];
