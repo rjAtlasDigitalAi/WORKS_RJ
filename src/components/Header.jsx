@@ -1,62 +1,96 @@
-import React, { useState } from 'react';
-import { Menu, X } from 'lucide-react';
+import React, { useCallback, useState } from "react";
+import { Menu, X } from "lucide-react";
+
+const NAV_LINKS = [
+  { name: "Marketing", href: "#marketing", targetId: "marketing" },
+  { name: "Websites", href: "#websites", targetId: "websites" },
+  { name: "Video", href: "#video", targetId: "video" },
+];
+
+const HEADER_OFFSET = 80;
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
 
-  const navLinks = [
-    { name: 'Marketing', href: '#marketing' },
-    { name: 'Websites', href: '#websites' },
-    { name: 'Video', href: '#video' },
-  ];
-
-  const handleScroll = (e, targetId) => {
-    e.preventDefault();
+  const scrollToSection = useCallback((targetId) => {
     const element = document.getElementById(targetId);
-    if (element) {
-      const headerOffset = 80;
-      const elementPosition = element.getBoundingClientRect().top;
-      const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
 
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: 'smooth'
-      });
-      setIsOpen(false);
-    }
-  };
+    if (!element) return;
+
+    const offsetPosition =
+      element.getBoundingClientRect().top + window.scrollY - HEADER_OFFSET;
+
+    window.scrollTo({
+      top: offsetPosition,
+      behavior: "smooth",
+    });
+
+    setIsOpen(false);
+  }, []);
+
+  const handleNavClick = useCallback(
+    (event, targetId) => {
+      event.preventDefault();
+      scrollToSection(targetId);
+    },
+    [scrollToSection]
+  );
+
+  const handleLogoClick = useCallback((event) => {
+    event.preventDefault();
+
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+
+    setIsOpen(false);
+  }, []);
+
+  const toggleMenu = useCallback(() => {
+    setIsOpen((prev) => !prev);
+  }, []);
 
   return (
-    <header className="sticky top-0 z-50 w-full bg-white/80 backdrop-blur-md border-b border-[#E5E7EB]">
-      <div className="max-w-7xl mx-auto px-4 md:px-8 h-20 flex items-center justify-between">
+    <header className="sticky top-0 z-50 w-full border-b border-[#E5E7EB] bg-white/80 backdrop-blur-md">
+      <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-4 md:px-8">
         {/* Logo */}
-        <a 
-          href="#" 
-          onClick={(e) => {
-            e.preventDefault();
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-          }}
-          className="text-lg font-extrabold tracking-wider text-[#111827] hover:opacity-80 transition-opacity"
+        <a
+          href="#"
+          onClick={handleLogoClick}
+          className="
+            text-base font-extrabold tracking-wider text-[#111827]
+            transition-opacity hover:opacity-80
+            sm:text-lg
+          "
         >
           RJ ATLAS DIGITAL AI
         </a>
 
         {/* Desktop Navigation */}
-        <nav className="hidden md:flex items-center space-x-10">
-          {navLinks.map((link) => (
+        <nav className="hidden items-center gap-10 md:flex">
+          {NAV_LINKS.map((link) => (
             <a
               key={link.name}
               href={link.href}
-              onClick={(e) => handleScroll(e, link.href.substring(1))}
-              className="text-sm font-medium text-[#6B7280] hover:text-[#111827] transition-colors duration-200"
+              onClick={(event) => handleNavClick(event, link.targetId)}
+              className="
+                text-sm font-medium text-[#6B7280]
+                transition-colors duration-200 hover:text-[#111827]
+              "
             >
               {link.name}
             </a>
           ))}
+
           <a
             href="#contact"
-            onClick={(e) => handleScroll(e, 'contact')}
-            className="px-5 py-2 text-sm font-medium text-white bg-[#2563EB] hover:bg-[#1d4ed8] rounded-full transition-colors duration-200"
+            onClick={(event) => handleNavClick(event, "contact")}
+            className="
+              rounded-full bg-[#2563EB] px-5 py-2
+              text-sm font-medium text-white
+              transition-colors duration-200 hover:bg-[#1d4ed8]
+            "
           >
             Contact Us
           </a>
@@ -64,35 +98,62 @@ export default function Header() {
 
         {/* Mobile Menu Button */}
         <button
-          onClick={() => setIsOpen(!isOpen)}
-          className="md:hidden p-2 text-[#111827] focus:outline-none"
-          aria-label="Toggle menu"
+          type="button"
+          onClick={toggleMenu}
+          className="
+            p-2 text-[#111827] md:hidden
+            focus:outline-none focus-visible:ring-2
+            focus-visible:ring-[#2563EB] focus-visible:ring-offset-2
+          "
+          aria-label={isOpen ? "Close menu" : "Open menu"}
+          aria-expanded={isOpen}
+          aria-controls="mobile-navigation"
         >
-          {isOpen ? <X size={24} /> : <Menu size={24} />}
+          {isOpen ? (
+            <X size={24} aria-hidden="true" />
+          ) : (
+            <Menu size={24} aria-hidden="true" />
+          )}
         </button>
       </div>
 
       {/* Mobile Navigation Dropdown */}
       {isOpen && (
-        <div className="md:hidden border-t border-[#E5E7EB] bg-white px-4 py-6 space-y-4 shadow-lg">
-          {navLinks.map((link) => (
+        <nav
+          id="mobile-navigation"
+          className="
+            border-t border-[#E5E7EB] bg-white px-4 py-5
+            shadow-md md:hidden
+          "
+        >
+          <div className="flex flex-col gap-3">
+            {NAV_LINKS.map((link) => (
+              <a
+                key={link.name}
+                href={link.href}
+                onClick={(event) => handleNavClick(event, link.targetId)}
+                className="
+                  block rounded-lg py-2 text-base font-medium
+                  text-[#6B7280] transition-colors hover:text-[#111827]
+                "
+              >
+                {link.name}
+              </a>
+            ))}
+
             <a
-              key={link.name}
-              href={link.href}
-              onClick={(e) => handleScroll(e, link.href.substring(1))}
-              className="block text-base font-medium text-[#6B7280] hover:text-[#111827] py-2"
+              href="#contact"
+              onClick={(event) => handleNavClick(event, "contact")}
+              className="
+                mt-2 block rounded-full bg-[#2563EB] px-5 py-3
+                text-center text-base font-medium text-white
+                transition-colors hover:bg-[#1d4ed8]
+              "
             >
-              {link.name}
+              Contact Us
             </a>
-          ))}
-          <a
-            href="#contact"
-            onClick={(e) => handleScroll(e, 'contact')}
-            className="block text-center px-5 py-3 text-base font-medium text-white bg-[#2563EB] hover:bg-[#1d4ed8] rounded-full"
-          >
-            Contact Us
-          </a>
-        </div>
+          </div>
+        </nav>
       )}
     </header>
   );

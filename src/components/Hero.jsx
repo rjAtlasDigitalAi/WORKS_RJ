@@ -1,53 +1,96 @@
-import React from 'react';
-import { motion } from 'framer-motion';
+import React from "react";
+import { motion } from "framer-motion";
+
+const fadeUpSmall = {
+  hidden: {
+    opacity: 0,
+    transform: "translate3d(0, 10px, 0)",
+  },
+  visible: {
+    opacity: 1,
+    transform: "translate3d(0, 0, 0)",
+    transition: {
+      duration: 0.45,
+      ease: [0.22, 1, 0.36, 1],
+    },
+  },
+};
+
+const fadeUpLarge = {
+  hidden: {
+    opacity: 0,
+    transform: "translate3d(0, 18px, 0)",
+  },
+  visible: {
+    opacity: 1,
+    transform: "translate3d(0, 0, 0)",
+    transition: {
+      duration: 0.55,
+      delay: 0.08,
+      ease: [0.22, 1, 0.36, 1],
+    },
+  },
+};
+
+const lineVariant = {
+  hidden: {
+    scaleY: 0,
+  },
+  visible: {
+    scaleY: 1,
+    transition: {
+      duration: 0.65,
+      delay: 0.25,
+      ease: [0.22, 1, 0.36, 1],
+    },
+  },
+};
 
 export default function Hero() {
-  const handleScrollToContact = (e) => {
-    e.preventDefault();
-    const element = document.getElementById('contact');
-    if (element) {
-      const headerOffset = 80;
-      const elementPosition = element.getBoundingClientRect().top;
-      const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: 'smooth'
-      });
-    }
-  };
-
   return (
-    <section className="relative flex flex-col items-center justify-center py-24 md:py-36 text-center overflow-hidden bg-white">
-      <div className="max-w-4xl mx-auto px-4 md:px-8">
+    <section className="relative flex flex-col items-center justify-center overflow-hidden bg-white py-20 text-center sm:py-24 md:py-32">
+      <div className="mx-auto max-w-4xl px-4 md:px-8">
         {/* Subtle Brand Tagline */}
         <motion.p
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="text-xs font-semibold uppercase tracking-[0.2em] text-[#6B7280] mb-6"
+          variants={fadeUpSmall}
+          initial="hidden"
+          animate="visible"
+          className="
+            mb-5 text-xs font-semibold uppercase
+            tracking-[0.2em] text-[#6B7280]
+            motion-reduce:transform-none motion-reduce:transition-none
+          "
         >
           RJ ATLAS DIGITAL AI
         </motion.p>
 
         {/* Large Heading */}
         <motion.h1
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.1 }}
-          className="text-5xl md:text-7xl lg:text-8xl font-black tracking-tight text-[#111827] leading-none mb-10"
+          variants={fadeUpLarge}
+          initial="hidden"
+          animate="visible"
+          className="
+            mb-8 text-5xl font-black leading-none
+            tracking-tight text-[#111827]
+            md:text-7xl lg:text-8xl
+            motion-reduce:transform-none motion-reduce:transition-none
+          "
         >
           Latest Works
         </motion.h1>
-
-        
       </div>
 
-      {/* Modern minimal line accent */}
-      <motion.div 
-        initial={{ scaleY: 0 }}
-        animate={{ scaleY: 1 }}
-        transition={{ duration: 0.8, delay: 0.4 }}
-        className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[1px] h-12 bg-[#E5E7EB]"
+      {/* Modern Minimal Line Accent */}
+      <motion.div
+        variants={lineVariant}
+        initial="hidden"
+        animate="visible"
+        className="
+          absolute bottom-0 left-1/2 h-10 w-px
+          origin-bottom -translate-x-1/2 bg-[#E5E7EB]
+          md:h-12
+          motion-reduce:hidden
+        "
       />
     </section>
   );

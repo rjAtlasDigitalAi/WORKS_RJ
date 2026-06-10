@@ -1,57 +1,82 @@
-import React from 'react';
-import { motion } from 'framer-motion';
-import { digitalMarketingWorks } from '../data/portfolio';
-import SectionHeader from './SectionHeader';
+import React, { memo, useMemo } from "react";
+import { motion } from "framer-motion";
+import { digitalMarketingWorks } from "../data/portfolio";
+import SectionHeader from "./SectionHeader";
+
+const itemVariants = {
+  hidden: {
+    opacity: 0,
+    transform: "translate3d(0, 18px, 0)",
+  },
+  visible: {
+    opacity: 1,
+    transform: "translate3d(0, 0, 0)",
+    transition: {
+      duration: 0.45,
+      ease: [0.22, 1, 0.36, 1],
+    },
+  },
+};
+
+const MarketingCard = memo(function MarketingCard({ work }) {
+  return (
+    <motion.article
+      variants={itemVariants}
+      className="
+        group relative overflow-hidden rounded-2xl
+        border border-[#E5E7EB]/60 bg-white shadow-sm
+        transition-shadow duration-300 hover:shadow-md
+      "
+    >
+      <div className="aspect-[3/4] w-full overflow-hidden bg-[#F9FAFB]">
+        <img
+          src={work.image}
+          alt={work.alt || "Digital Marketing Poster"}
+          loading="lazy"
+          decoding="async"
+          fetchPriority="low"
+          draggable="false"
+          className="
+            h-full w-full object-cover object-center
+            transition-transform duration-500 ease-out
+            group-hover:scale-[1.025]
+            motion-reduce:transition-none motion-reduce:transform-none
+          "
+        />
+      </div>
+    </motion.article>
+  );
+});
 
 export default function DigitalMarketing() {
-  const containerVariants = {
-    hidden: {},
-    visible: {
-      transition: {
-        staggerChildren: 0.1
-      }
-    }
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 30 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.6,
-        ease: 'easeOut'
-      }
-    }
-  };
+  const works = useMemo(() => digitalMarketingWorks, []);
 
   return (
-    <section id="marketing" className="py-20 bg-white border-t border-[#E5E7EB]">
-      <div className="max-w-7xl mx-auto px-4 md:px-8">
-        <SectionHeader title="Digital Marketing" subtitle="Campaigns & Graphics" />
+    <section
+      id="marketing"
+      className="py-16 sm:py-20 bg-white border-t border-[#E5E7EB]"
+    >
+      <div className="mx-auto max-w-7xl px-4 md:px-8">
+        <SectionHeader
+          title="Digital Marketing"
+          subtitle="Campaigns & Graphics"
+        />
 
-        <motion.div 
-          variants={containerVariants}
+        <motion.div
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, margin: "-100px" }}
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8"
+          viewport={{ once: true, amount: 0.12 }}
+          transition={{
+            staggerChildren: 0.05,
+          }}
+          className="
+            grid grid-cols-1 gap-4
+            sm:grid-cols-2 sm:gap-6
+            lg:grid-cols-4 lg:gap-8
+          "
         >
-          {digitalMarketingWorks.map((work) => (
-            <motion.div
-              key={work.id}
-              variants={itemVariants}
-              className="group relative overflow-hidden rounded-2xl bg-[#FFFFFF] shadow-sm hover:shadow-lg border border-[#E5E7EB]/50 transition-shadow duration-500"
-            >
-              <div className="aspect-[3/4] w-full overflow-hidden bg-[#F9FAFB]">
-                <img
-                  src={work.image}
-                  alt={work.alt || 'Digital Marketing Poster'}
-                  loading="lazy"
-                  className="h-full w-full object-cover object-center transform transition-transform duration-700 ease-out group-hover:scale-105"
-                />
-              </div>
-            </motion.div>
+          {works.map((work) => (
+            <MarketingCard key={work.id} work={work} />
           ))}
         </motion.div>
       </div>
