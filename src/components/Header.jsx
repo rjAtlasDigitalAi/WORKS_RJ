@@ -7,7 +7,7 @@ const NAV_LINKS = [
   { name: "Video", href: "#video", targetId: "video" },
 ];
 
-const HEADER_OFFSET = 80;
+const HEADER_OFFSET = 64;
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
@@ -53,22 +53,22 @@ export default function Header() {
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-[#E5E7EB] bg-white/80 backdrop-blur-md">
-      <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-4 md:px-8">
+      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 md:px-8">
         {/* Logo */}
         <a
           href="#"
           onClick={handleLogoClick}
           className="
-            text-base font-extrabold tracking-wider text-[#111827]
+            text-sm font-extrabold tracking-wide text-[#111827]
             transition-opacity hover:opacity-80
-            sm:text-lg
+            sm:text-base
           "
         >
           RJ ATLAS DIGITAL AI
         </a>
 
         {/* Desktop Navigation */}
-        <nav className="hidden items-center gap-10 md:flex">
+        <nav className="hidden items-center gap-8 md:flex">
           {NAV_LINKS.map((link) => (
             <a
               key={link.name}
@@ -87,7 +87,7 @@ export default function Header() {
             href="#contact"
             onClick={(event) => handleNavClick(event, "contact")}
             className="
-              rounded-full bg-[#2563EB] px-5 py-2
+              rounded-full bg-[#2563EB] px-4 py-1.5
               text-sm font-medium text-white
               transition-colors duration-200 hover:bg-[#1d4ed8]
             "
@@ -101,7 +101,7 @@ export default function Header() {
           type="button"
           onClick={toggleMenu}
           className="
-            p-2 text-[#111827] md:hidden
+            p-1.5 text-[#111827] md:hidden
             focus:outline-none focus-visible:ring-2
             focus-visible:ring-[#2563EB] focus-visible:ring-offset-2
           "
@@ -110,9 +110,9 @@ export default function Header() {
           aria-controls="mobile-navigation"
         >
           {isOpen ? (
-            <X size={24} aria-hidden="true" />
+            <X size={22} aria-hidden="true" />
           ) : (
-            <Menu size={24} aria-hidden="true" />
+            <Menu size={22} aria-hidden="true" />
           )}
         </button>
       </div>
@@ -122,19 +122,21 @@ export default function Header() {
         <nav
           id="mobile-navigation"
           className="
-            border-t border-[#E5E7EB] bg-white px-4 py-5
+            border-t border-[#E5E7EB]
+            bg-white px-4 py-4
             shadow-md md:hidden
           "
         >
-          <div className="flex flex-col gap-3">
+          <div className="flex flex-col gap-2">
             {NAV_LINKS.map((link) => (
               <a
                 key={link.name}
                 href={link.href}
                 onClick={(event) => handleNavClick(event, link.targetId)}
                 className="
-                  block rounded-lg py-2 text-base font-medium
-                  text-[#6B7280] transition-colors hover:text-[#111827]
+                  block rounded-lg py-2
+                  text-sm font-medium text-[#6B7280]
+                  transition-colors hover:text-[#111827]
                 "
               >
                 {link.name}
@@ -145,8 +147,9 @@ export default function Header() {
               href="#contact"
               onClick={(event) => handleNavClick(event, "contact")}
               className="
-                mt-2 block rounded-full bg-[#2563EB] px-5 py-3
-                text-center text-base font-medium text-white
+                mt-2 block rounded-full
+                bg-[#2563EB] px-4 py-2.5
+                text-center text-sm font-medium text-white
                 transition-colors hover:bg-[#1d4ed8]
               "
             >
