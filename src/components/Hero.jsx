@@ -52,17 +52,19 @@ export default function Hero() {
       <div className="mx-auto max-w-4xl px-4 md:px-8">
         {/* Subtle Brand Tagline */}
         <motion.p
-          variants={fadeUpSmall}
-          initial="hidden"
-          animate="visible"
-          className="
-            mb-5 text-xs font-semibold uppercase
-            tracking-[0.2em] text-[#6B7280]
-            motion-reduce:transform-none motion-reduce:transition-none
-          "
-        >
-          RJ ATLAS DIGITAL AI
-        </motion.p>
+  variants={fadeUpSmall}
+  initial="hidden"
+  animate="visible"
+  className="
+    mb-5 text-xs font-semibold uppercase
+    tracking-[0.2em]
+    bg-gradient-to-r from-[#00eaff] to-[#ff1493]
+    bg-clip-text text-transparent
+    motion-reduce:transform-none motion-reduce:transition-none
+  "
+>
+  RJ ATLAS DIGITAL AI
+</motion.p>
 
         {/* Large Heading */}
         <motion.h1
